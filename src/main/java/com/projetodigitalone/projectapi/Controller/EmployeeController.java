@@ -1,9 +1,12 @@
-package com.projetodigitalone.projectapi.Controller;
+package com.projetodigitalone.projectapi.controller;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.projetodigitalone.projectapi.dto.MessageRespondeDTO;
+import com.projetodigitalone.projectapi.entities.Employee;
+import com.projetodigitalone.projectapi.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 //Ponto de entrada do projeto
 
@@ -11,8 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/employee")
 public class EmployeeController {
 
-    @GetMapping
-    public String getBook(){
-        return "API Rest!";
+    private EmployeeService employeeService;
+
+    @Autowired
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public MessageRespondeDTO createEmployee(@RequestBody Employee employee) {
+        return employeeService.createEmployee(employee);
     }
 }
